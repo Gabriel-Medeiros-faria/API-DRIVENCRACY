@@ -10,3 +10,7 @@ try{
 }catch(err){
     console.log(err)
 }
+
+const db = mongoClient.db("DrivenCracy")
+export const pollCollection = db.collection("poll")
+export const choiceCollection = db.collection("choice")
