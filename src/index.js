@@ -12,5 +12,5 @@ app.use(cors());
 app.use(choiceRoutes)
 app.use(pollRoutes)
 
-const port = "mongodb+srv://GabrielMedeiros:12345@drivencracy.lf1vo3n.mongodb.net/?retryWrites=true&w=majority"
+const port = process.env.PORT || 5000
 app.listen(port, ()=> console.log(`Server runing in port: ${port}`))
