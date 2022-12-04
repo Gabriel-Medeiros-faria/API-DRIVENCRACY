@@ -3,12 +3,13 @@ import { pollCollection } from "../database/db.js"
 
 
 export async function poll(req, res){
-    const {expireAt} = res.locals.poll
     const poll = res.locals.poll
-    const hour = dayjs("HH/MM")
-    const toDay = dayjs("AAAA/MM/DD")
+    let today ;
 
-    if(expireAt === toDay)
+    if(!poll.expireAt){
+        today = dayjs().add(30 , "day").format("YYYY-MM-DD HH:mm")
+        poll.expireAt = today
+    }
     try{
         await pollCollection.insertOne(poll)
         res.sendStatus(201)
