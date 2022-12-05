@@ -32,7 +32,15 @@ export async function getPoll(req, res){
 
 export async function getLargerVote(req, res) {
     const { id } = req.params;
+    const today = dayjs()
     try {
+        const poll =  await pollCollection.findOne({_id: ObjectId(id)})
+        const choice = await choiceCollection.findOne({_id: ObjectId(maisVotado.id.toString())})
+
+        if(today.isAfter(poll.expireAt) || !poll){
+            res.sendStatus(404)
+            return
+        }
         const choices = await choiceCollection.find({ pollId: id }).toArray();
 
         const choicesMap = choices.map((obj) => { return new ObjectId(obj._id) });
@@ -44,8 +52,6 @@ export async function getLargerVote(req, res) {
         })
 
         const maisVotado = choicesId.sort((a, b) => b.count - a.count).at(0);
-        const poll =  await pollCollection.findOne({_id: ObjectId(id)})
-        const choice = await choiceCollection.findOne({_id: ObjectId(maisVotado.id.toString())})
 
 
         const obj = {
