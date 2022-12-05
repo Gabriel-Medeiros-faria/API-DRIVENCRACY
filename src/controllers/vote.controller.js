@@ -19,7 +19,7 @@ export async function Vote(req, res){
     }
     today = today.format("YYYY-MM-DD HH:mm")
     try{
-        await voteCollection.insertOne({expireAt: today, choiceId: new ObjectId(id)})
+        await voteCollection.insertOne({expireAt: today, choiceId: ObjectId(id)})
         res.sendStatus(201)
         return
     }catch(err){
